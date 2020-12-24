@@ -1,0 +1,49 @@
+{% extends "html/base.html" %}
+
+{% block content %}
+<div class="col mt-5">
+    <h1>{{ authorinfo.first_name }} {{ authorinfo.last_name }}</h1>
+    <div class="row justify-content-end">
+        <div class="col text-right">
+            <p class="font-weight-bold">ID</p>
+        </div>
+        <div class="col">
+            <p>{{ authorinfo.id }}</p>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <div class="col text-right">
+            <p class="font-weight-bold">Description</p>
+        </div>
+        <div class="col">
+            <p>{{ authorinfo.notes }}</p>
+        </div>
+    </div>
+<ul class="mt-5">
+    <li>Books:
+        <ul>
+{% for book in authorinfo.books.all %}
+            <li>{{ book.title }}</li>
+{% endfor %}
+        </ul>
+    </li>
+</ul>
+<form action="{% url 'addabook' %}" method="POST" class="pt-3">
+    {% csrf_token %}
+    <input type="hidden" name="authid" value="{{ authorinfo.id }}">
+    <div class="form-row align-items-center">
+        <div class="col-auto my-1">
+            <label class="mr-sm-2 sr-only" for="bookadd">Add An Author</label>
+        <select class="custom-select mr-sm-2" id="bookadd" name="bookadd">
+            {% for book in bookinfo %}
+            <option value="{{ book.id }} ">{{ book.title }}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <div class="col-auto my-1">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}
