@@ -8,9 +8,16 @@ def index(request):
     return render(request, 'html/book.html', context)
 
 def bookview(request, bookid):
+    # Code to exclude authors already added to add list!
+    thisbookauthors = []
+    thisbook = Book.objects.get(id=bookid)
+    for id in thisbook.Author.all():
+        thisbookauthors.append(id.id)
+
     context = {
         "bookinfo" : Book.objects.get(id=bookid),
         "authorinfo" : Author.objects.all(),
+        "excludelist" : thisbookauthors
     }
     return render(request, 'html/bookview.html', context)
 
@@ -33,9 +40,16 @@ def authors(request):
     return render(request, 'html/author.html', context)
 
 def authview(request, authid):
+    # Code to exclude books already added from add list!
+    thisauthorsbooks = []
+    thisauth = Author.objects.get(id=authid)
+    for id in thisauth.books.all():
+        thisauthorsbooks.append(id.id)
+
     context = {
         "bookinfo" : Book.objects.all(),
         "authorinfo" : Author.objects.get(id=authid),
+        "excludelist" : thisauthorsbooks
     }
     return render(request, 'html/authview.html', context)
 

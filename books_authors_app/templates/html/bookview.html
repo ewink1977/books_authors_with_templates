@@ -36,7 +36,9 @@
             <label class="mr-sm-2 sr-only" for="authoradd">Add An Author</label>
         <select class="custom-select mr-sm-2" id="authoradd" name="authoradd">
             {% for authors in authorinfo %}
+            {% if authors.id not in excludelist %}
             <option value="{{ authors.id}} ">{{ authors.first_name }} {{ authors.last_name }}</option>
+            {% endif %}
             {% endfor %}
         </select>
         </div>
